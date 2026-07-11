@@ -1,0 +1,910 @@
+You are an expert Senior Software Architect, Senior React Native Engineer, Senior UI/UX Designer, Product Designer, and Full Stack Engineer.
+
+Your goal is to build a production-ready mobile application called "Hotel Ledger Pro", a premium accounting and ledger management application designed specifically for Indian hotels.
+
+This is NOT a demo project.
+
+This is NOT a college project.
+
+Build it as a real commercial SaaS-quality application.
+
+The application should be scalable, maintainable, modular, responsive, performant, and beautiful.
+
+====================================================
+TECH STACK
+====================================================
+
+Frontend
+---------
+• React Native (Expo)
+• TypeScript
+• React Navigation
+• Zustand
+• TanStack Query
+• NativeWind (Tailwind)
+• React Hook Form
+• React Native Reanimated
+• React Native Gesture Handler
+• React Native SVG
+• Victory Native Charts
+• React Native Paper
+
+Backend (API Ready)
+-------------------
+• REST API
+• Node.js
+• Express.js
+
+Authentication
+--------------
+• Supabase Authentication ONLY
+
+Database
+---------
+• PostgreSQL
+
+Storage
+--------
+• Supabase Storage
+
+Architecture
+------------
+Frontend should NEVER communicate directly with PostgreSQL.
+
+Flow
+
+React Native
+
+↓
+
+REST API
+
+↓
+
+PostgreSQL
+
+Authentication should use
+
+Supabase Auth
+
+↓
+
+JWT
+
+↓
+
+REST API
+
+====================================================
+PROJECT STRUCTURE
+====================================================
+
+Create a scalable folder architecture.
+
+Use
+
+/components
+
+/screens
+
+/navigation
+
+/services
+
+/hooks
+
+/store
+
+/constants
+
+/utils
+
+/types
+
+/assets
+
+/theme
+
+/context
+
+/api
+
+/config
+
+Create reusable components only.
+
+Avoid duplicated code.
+
+====================================================
+DESIGN SYSTEM
+====================================================
+
+Create a premium fintech-inspired UI.
+
+Reference inspiration
+
+Stripe
+
+Linear
+
+CRED
+
+Google Wallet
+
+Notion
+
+Revolut
+
+Material Design 3
+
+Design should be
+
+Modern
+
+Minimal
+
+Elegant
+
+Premium
+
+Professional
+
+Fast
+
+Highly responsive
+
+Rounded Corners
+
+Soft Shadows
+
+Beautiful Cards
+
+Smooth Animations
+
+Glass Effects where appropriate
+
+Dark Mode Ready
+
+====================================================
+COLOR SYSTEM
+====================================================
+
+Primary
+
+Royal Blue
+
+Secondary
+
+Emerald
+
+Success
+
+Green
+
+Warning
+
+Orange
+
+Danger
+
+Red
+
+Background
+
+White
+
+Dark Theme
+
+Dark Charcoal
+
+Cards
+
+Light Elevation
+
+====================================================
+INDIAN APPLICATION
+====================================================
+
+This application is for India.
+
+Use ONLY
+
+₹ Indian Rupee
+
+Never use $
+
+Never use USD
+
+Use Indian numbering format.
+
+Examples
+
+₹500
+
+₹2,450
+
+₹15,750
+
+₹1,25,000
+
+₹25,40,500
+
+Use DD/MM/YYYY.
+
+Support
+
+Cash
+
+UPI
+
+Google Pay
+
+PhonePe
+
+Paytm
+
+BHIM
+
+Cheque
+
+Credit Card
+
+Debit Card
+
+Bank Transfer
+
+====================================================
+ANIMATION SYSTEM
+====================================================
+
+Every interaction should be animated.
+
+Use
+
+Fade
+
+Slide
+
+Scale
+
+Ripple
+
+Spring Animation
+
+Gesture Animation
+
+Swipe Animation
+
+Bottom Sheet Animation
+
+Loading Skeleton
+
+Shimmer Loading
+
+Page Transition
+
+Floating Button Animation
+
+Expandable Cards
+
+Chart Animation
+
+Counter Animation
+
+Target 60 FPS.
+
+====================================================
+BOTTOM NAVIGATION
+====================================================
+
+Dashboard
+
+Ledger
+
++
+
+Reports
+
+Settings
+
+Floating Action Button in the center.
+
+====================================================
+MODULES
+====================================================
+
+1. Splash Screen
+
+Animated Logo
+
+Loading
+
+Brand Animation
+
+2. Login
+
+Email
+
+Password
+
+Remember Me
+
+Forgot Password
+
+Loading
+
+Validation
+
+3. Dashboard
+
+Today's Income
+
+Today's Expense
+
+Cash Balance
+
+Bank Balance
+
+Net Profit
+
+Pending Payment
+
+Pending Collection
+
+Recent Transactions
+
+Quick Actions
+
+Charts
+
+Monthly Report
+
+Hotel Selector
+
+Calendar Selector
+
+Notifications
+
+Profile
+
+4. Ledger
+
+Search
+
+Filter
+
+Sort
+
+Calendar
+
+Date Range
+
+Branch Filter
+
+Category Filter
+
+Payment Method Filter
+
+Income
+
+Expense
+
+Running Balance
+
+Expandable Transaction
+
+Swipe Left Delete
+
+Swipe Right Edit
+
+Pagination
+
+Infinite Scroll
+
+Edited Badge
+
+Edited Timestamp
+
+Transaction History
+
+5. Add Transaction
+
+Category
+
+Amount
+
+Remarks
+
+Description
+
+Credit
+
+Debit
+
+Branch
+
+Payment Method
+
+Calendar
+
+Time
+
+Receipt Upload
+
+Save
+
+Cancel
+
+Validation
+
+6. Edit Transaction
+
+Everything from Add
+
+Show Previous Values
+
+Edited Time
+
+Edited By
+
+Undo
+
+Save
+
+7. Categories
+
+Create
+
+Edit
+
+Delete
+
+Search
+
+Color Picker
+
+Icon Picker
+
+Preview
+
+8. Reports
+
+Daily
+
+Weekly
+
+Monthly
+
+Quarterly
+
+Yearly
+
+Custom Date
+
+Calendar Range
+
+Pie Chart
+
+Bar Chart
+
+Line Chart
+
+Area Chart
+
+Analytics
+
+Branch Analytics
+
+Category Analytics
+
+Top Expenses
+
+Top Income
+
+9. Export
+
+CSV
+
+PDF
+
+Excel
+
+Email Report
+
+Share Report
+
+10. Invoice
+
+Invoice List
+
+Create Invoice
+
+Invoice Preview
+
+Customer Details
+
+Items
+
+GST
+
+Discount
+
+Grand Total
+
+PDF Preview
+
+Share
+
+Print
+
+WhatsApp
+
+Email
+
+11. Customers
+
+Customer List
+
+Customer Ledger
+
+Outstanding
+
+Payments
+
+History
+
+Search
+
+12. Vendors
+
+Vendor List
+
+Outstanding Bills
+
+Purchase History
+
+Ledger
+
+Search
+
+13. Hotels
+
+Hotel 1
+
+Hotel 2
+
+Hotel 3
+
+Combined Dashboard
+
+Combined Reports
+
+14. Notifications
+
+Invoice Sent
+
+Payment Received
+
+Reminder
+
+Pending Bills
+
+System Notification
+
+15. Profile
+
+User Details
+
+Hotel
+
+Role
+
+Security
+
+Preferences
+
+16. Settings
+
+Theme
+
+Backup
+
+Categories
+
+Payment Methods
+
+Security
+
+About
+
+Privacy
+
+Terms
+
+Logout
+
+====================================================
+STATES
+====================================================
+
+Design every possible state.
+
+Loading
+
+Skeleton
+
+Empty
+
+Offline
+
+No Internet
+
+No Data
+
+No Transactions
+
+No Reports
+
+No Customers
+
+No Categories
+
+No Notifications
+
+Permission Denied
+
+404
+
+500
+
+Session Expired
+
+====================================================
+COMPONENTS
+====================================================
+
+Create reusable components.
+
+Button
+
+Card
+
+Stat Card
+
+Summary Card
+
+Ledger Card
+
+Invoice Card
+
+Customer Card
+
+Vendor Card
+
+Chart Card
+
+Calendar
+
+Date Picker
+
+Time Picker
+
+Search Bar
+
+Filter Chip
+
+Dropdown
+
+Bottom Sheet
+
+Dialog
+
+Snackbar
+
+Toast
+
+Badge
+
+Status Chip
+
+Avatar
+
+Profile Card
+
+Upload Component
+
+Receipt Viewer
+
+PDF Viewer
+
+Export Dialog
+
+Floating Button
+
+Progress Bar
+
+Loading Spinner
+
+Skeleton Loader
+
+====================================================
+TRANSACTION CARD
+====================================================
+
+Every transaction card must display
+
+Category Icon
+
+Category Name
+
+Credit or Debit
+
+₹ Amount
+
+Hotel Branch
+
+Payment Method
+
+Date
+
+Time
+
+Edited Badge
+
+Attachment
+
+Remarks
+
+Expandable Details
+
+Swipe Actions
+
+====================================================
+SEARCH
+====================================================
+
+Global Search
+
+Search by
+
+Amount
+
+Category
+
+Remarks
+
+Customer
+
+Vendor
+
+Invoice Number
+
+====================================================
+FILTERS
+====================================================
+
+Today
+
+Yesterday
+
+This Week
+
+This Month
+
+This Year
+
+Custom Date
+
+Branch
+
+Category
+
+Payment Method
+
+Income
+
+Expense
+
+====================================================
+ROLE BASED UI
+====================================================
+
+Owner
+
+Manager
+
+Staff
+
+Owner
+
+Everything
+
+Manager
+
+No Settings
+
+No User Management
+
+Staff
+
+Only Add/Edit Transactions
+
+====================================================
+PERFORMANCE
+====================================================
+
+Lazy Loading
+
+Code Splitting
+
+Memoization
+
+Optimized Lists
+
+Reusable Components
+
+Fast Rendering
+
+Offline Friendly
+
+====================================================
+API READY
+====================================================
+
+Create an API service layer for every module.
+
+Do NOT hardcode data.
+
+Use mock JSON for now.
+
+Prepare every screen to consume REST APIs later.
+
+====================================================
+CODE QUALITY
+====================================================
+
+Use TypeScript everywhere.
+
+No duplicate components.
+
+Clean architecture.
+
+Professional folder structure.
+
+Proper naming conventions.
+
+Scalable project.
+
+Developer friendly.
+
+====================================================
+FINAL OBJECTIVE
+====================================================
+
+Generate a complete production-ready frontend that feels like a premium commercial fintech application.
+
+Every button should work.
+
+Every navigation should work.
+
+Every screen should connect correctly.
+
+Every form should validate.
+
+Every filter should function.
+
+Every calendar should function.
+
+Every search should function.
+
+Every animation should work.
+
+Every popup should work.
+
+Every dialog should work.
+
+Every bottom sheet should work.
+
+Every page should be connected.
+
+Build the project so it is immediately ready to integrate with an Express REST API, Supabase Authentication, PostgreSQL, and Supabase Storage.

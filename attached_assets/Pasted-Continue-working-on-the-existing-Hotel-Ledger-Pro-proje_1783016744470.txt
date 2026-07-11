@@ -1,0 +1,97 @@
+Continue working on the existing Hotel Ledger Pro project.
+
+Do NOT redesign the application.
+Do NOT modify the project architecture.
+Do NOT change the navigation or existing business logic.
+
+Implement ONLY the following changes.
+
+1. CATEGORY DROPDOWN
+
+In the Add Transaction and Edit Transaction screens, replace the current category input with a searchable dropdown.
+
+Create default hotel accounting categories.
+
+Income Categories:
+- Room Rent
+- Room Booking
+- Restaurant Sales
+- Food & Beverage
+- Laundry Service
+- Parking
+- Conference Hall
+- Banquet
+- Spa
+- Swimming Pool
+- Travel Desk
+- Other Income
+
+Expense Categories:
+- Electricity Bill
+- Water Bill
+- Internet Bill
+- Gas Bill
+- Staff Salary
+- Marketing
+- Advertisement
+- Grocery
+- Vegetables
+- Fruits
+- Milk & Dairy
+- Kitchen Expense
+- Housekeeping
+- Laundry Expense
+- Cleaning Supplies
+- Maintenance
+- Plumbing
+- Electrical Repair
+- Furniture
+- Fuel
+- Software Subscription
+- GST
+- Taxes
+- Bank Charges
+- Rent
+- Security
+- Miscellaneous Expense
+- Other
+
+Requirements:
+- Category selection must be mandatory.
+- Display categories in a searchable dropdown.
+- If "Other" is selected, display a text field allowing the user to enter a custom category.
+- Save the custom category with the transaction.
+- Reuse the existing UI components wherever possible.
+
+2. FIX ICONS
+
+Fix all broken icons displaying as empty squares.
+
+Use ONLY @expo/vector-icons.
+
+Verify all imports and icon names.
+
+Replace any unsupported icons with supported Expo icons.
+
+Ensure icons display correctly in:
+- Bottom Navigation
+- Dashboard
+- Quick Actions
+- Ledger
+- Categories
+- Reports
+- Settings
+- Notifications
+- Profile
+
+Do not use placeholder icons.
+
+3. VALIDATION
+
+The transaction cannot be saved unless:
+- Amount is entered.
+- Category is selected.
+- Payment method is selected.
+
+Only modify the files required for these changes.
+Keep the code clean, reusable, and compatible with the existing project.

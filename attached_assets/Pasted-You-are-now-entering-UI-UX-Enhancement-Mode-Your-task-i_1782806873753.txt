@@ -1,0 +1,391 @@
+You are now entering UI/UX Enhancement Mode.
+
+Your task is NOT to add new features.
+
+Your task is to redesign and refine the entire application until it reaches production-level quality comparable to the world's best fintech and SaaS mobile applications.
+
+Analyze every screen critically.
+
+Identify every UI inconsistency, spacing issue, typography issue, color issue, component inconsistency, navigation issue, alignment issue, hierarchy issue, accessibility issue, animation issue, and UX issue.
+
+Then improve everything without changing the application's functionality.
+
+====================================================
+
+GOAL
+
+Transform this application into a premium commercial product.
+
+The app should look like it was designed by senior designers from Apple, Google, Stripe, CRED, Revolut, Linear, Notion, or Airbnb.
+
+The application must feel premium, elegant, modern, minimal and extremely polished.
+
+====================================================
+
+DO NOT CHANGE
+
+Business Logic
+
+Database
+
+Navigation Flow
+
+REST API Structure
+
+Authentication
+
+Backend Architecture
+
+Existing Features
+
+Only improve the UI, UX and overall product quality.
+
+====================================================
+
+REDESIGN EVERYTHING
+
+Improve
+
+Spacing
+
+Padding
+
+Margins
+
+Typography
+
+Font hierarchy
+
+Card layouts
+
+Border radius
+
+Shadows
+
+Elevation
+
+Icons
+
+Button styles
+
+Navigation
+
+Bottom Navigation
+
+Floating Action Button
+
+Dashboard cards
+
+Charts
+
+Calendar
+
+Date Picker
+
+Dropdown
+
+Dialogs
+
+Bottom Sheets
+
+Snackbars
+
+Search
+
+Filters
+
+Forms
+
+Text Inputs
+
+Loading States
+
+Error States
+
+Empty States
+
+Success States
+
+Dark Mode
+
+Accessibility
+
+Animations
+
+Micro Interactions
+
+Transitions
+
+====================================================
+
+DESIGN SYSTEM
+
+Create a professional design system.
+
+Use consistent
+
+Spacing
+
+8pt Grid
+
+Typography Scale
+
+Color Palette
+
+Elevation
+
+Corner Radius
+
+Icon Size
+
+Button Size
+
+Input Height
+
+Card Styles
+
+Component Library
+
+Maintain consistency across every screen.
+
+====================================================
+
+VISUAL HIERARCHY
+
+Users should immediately know
+
+What is most important
+
+What requires attention
+
+Primary actions
+
+Secondary actions
+
+Financial information
+
+Warnings
+
+Errors
+
+Success
+
+Improve hierarchy using
+
+Typography
+
+Spacing
+
+Contrast
+
+Color
+
+Size
+
+Weight
+
+====================================================
+
+DASHBOARD
+
+Completely redesign the dashboard.
+
+Improve
+
+Greeting Section
+
+Hotel Selector
+
+Summary Cards
+
+Analytics
+
+Charts
+
+Quick Actions
+
+Recent Transactions
+
+Balance Cards
+
+Financial Overview
+
+Make it feel premium and information-rich without looking cluttered.
+
+====================================================
+
+LEDGER
+
+Improve transaction cards.
+
+Better spacing
+
+Better typography
+
+Clear credit/debit indication
+
+Better amount alignment
+
+Category icons
+
+Status chips
+
+Edited badge
+
+Swipe actions
+
+Expandable cards
+
+Sticky filters
+
+Beautiful search experience
+
+====================================================
+
+FORMS
+
+Improve every form.
+
+Better validation
+
+Inline error messages
+
+Better dropdowns
+
+Calendar improvements
+
+Amount formatting
+
+₹ Currency formatting
+
+Large touch targets
+
+Floating labels
+
+Better keyboard behavior
+
+====================================================
+
+INDIAN APPLICATION
+
+Currency must always be
+
+₹ INR
+
+Indian Number System
+
+₹1,25,000
+
+₹5,40,250
+
+DD/MM/YYYY
+
+Support
+
+Cash
+
+UPI
+
+PhonePe
+
+Google Pay
+
+Paytm
+
+Bank Transfer
+
+Cheque
+
+Debit Card
+
+Credit Card
+
+====================================================
+
+ANIMATIONS
+
+Every interaction should feel smooth.
+
+Use
+
+Spring animations
+
+Fade
+
+Slide
+
+Scale
+
+Ripple
+
+Button Press
+
+Page Transition
+
+Loading Skeleton
+
+Shimmer
+
+Animated Charts
+
+Animated Counters
+
+Swipe Gestures
+
+Bottom Sheet Animation
+
+Pull to Refresh
+
+60 FPS
+
+====================================================
+
+ACCESSIBILITY
+
+Improve
+
+Contrast
+
+Touch Targets
+
+Readability
+
+Dynamic Text
+
+Color Blind Friendly
+
+Large Buttons
+
+Safe Areas
+
+Responsive Layout
+
+====================================================
+
+PERFORMANCE
+
+Optimize rendering.
+
+Remove unnecessary re-renders.
+
+Use reusable components.
+
+Improve responsiveness.
+
+Optimize lists.
+
+====================================================
+
+FINAL GOAL
+
+Review every screen like a professional UI/UX reviewer.
+
+Find every weakness.
+
+Improve every weakness.
+
+Do not stop after one screen.
+
+Continue improving the entire application until every screen looks polished, premium, consistent, modern and ready for production deployment.
+
+The final application should feel like a commercial SaaS product that users would happily pay for.

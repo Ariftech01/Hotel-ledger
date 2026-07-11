@@ -1,0 +1,339 @@
+You are a Senior React Native Engineer, Expo Expert, UI Engineer, and QA Engineer.
+
+Your task is to perform a COMPLETE BUG FIX AND STABILITY UPDATE for this Hotel Ledger application.
+
+Do NOT redesign the application.
+
+Do NOT change the business logic.
+
+Keep the existing UI and architecture.
+
+Only fix bugs, improve stability, and complete missing functionality.
+
+====================================================
+PRIORITY 1 - FIX ICON SYSTEM
+====================================================
+
+The application currently shows broken icons (square placeholders).
+
+Find the root cause and permanently fix it.
+
+Verify:
+
+• Expo Vector Icons installation
+• @expo/vector-icons configuration
+• react-native-vector-icons compatibility
+• Lucide icon compatibility
+• Font loading
+• Icon imports
+• Icon names
+• Metro cache
+• Expo SDK compatibility
+
+Replace every broken icon with working icons.
+
+Icons must appear correctly in:
+
+Dashboard
+
+Bottom Navigation
+
+Quick Actions
+
+Categories
+
+Reports
+
+Settings
+
+Notifications
+
+Customer
+
+Invoice
+
+Ledger
+
+Search
+
+Calendar
+
+Filter
+
+Upload
+
+Download
+
+Delete
+
+Edit
+
+Add
+
+Profile
+
+Payment
+
+Cash
+
+Bank
+
+UPI
+
+Credit Card
+
+Debit Card
+
+Hotel
+
+Analytics
+
+Charts
+
+Receipt
+
+Attachment
+
+Every icon should be visible.
+
+No placeholder squares.
+
+No missing fonts.
+
+No runtime warnings.
+
+====================================================
+PRIORITY 2 - CATEGORY MANAGEMENT
+====================================================
+
+The application currently has incomplete transaction categories.
+
+Create a proper Category Management system.
+
+Every transaction MUST belong to a category.
+
+Provide default categories automatically.
+
+Income Categories
+
+• Room Rent
+• Room Booking
+• Deluxe Room
+• Suite Room
+• Restaurant Sales
+• Food & Beverage
+• Bar Sales
+• Laundry Service
+• Spa Service
+• Conference Hall
+• Banquet Booking
+• Parking
+• Extra Bed
+• Travel Desk
+• Swimming Pool
+• Event Booking
+• Advance Booking
+• Online Booking
+• Walk-in Customer
+• Other Income
+
+Expense Categories
+
+• Electricity Bill
+• Water Bill
+• Internet Bill
+• Gas
+• Housekeeping
+• Cleaning Supplies
+• Laundry Expense
+• Staff Salary
+• Kitchen Expense
+• Grocery
+• Vegetables
+• Fruits
+• Dairy Products
+• Meat & Seafood
+• Restaurant Purchase
+• Maintenance
+• Plumbing
+• Electrical Repair
+• Furniture
+• Interior
+• Marketing
+• Advertisement
+• Printing
+• Stationery
+• Fuel
+• Vehicle Expense
+• Software Subscription
+• GST
+• Tax
+• Bank Charges
+• Commission
+• Rent
+• Security
+• Miscellaneous Expense
+
+====================================================
+CATEGORY FEATURES
+====================================================
+
+Allow
+
+Create Category
+
+Edit Category
+
+Delete Category
+
+Search Category
+
+Sort Category
+
+Choose Icon
+
+Choose Color
+
+Enable/Disable Category
+
+Category Description
+
+Income/Expense Type
+
+====================================================
+TRANSACTION FORM
+====================================================
+
+When user clicks Add Transaction
+
+Category should be mandatory.
+
+Category dropdown should display all categories.
+
+Support Search.
+
+Support Recently Used Categories.
+
+Support Favorite Categories.
+
+Show Category Icon.
+
+Show Category Color.
+
+====================================================
+DASHBOARD
+====================================================
+
+Dashboard should automatically group transactions by category.
+
+Example
+
+Room Rent ₹50,000
+
+Restaurant ₹18,000
+
+Electricity ₹6,500
+
+Salary ₹85,000
+
+Marketing ₹10,000
+
+Maintenance ₹4,000
+
+Show top income categories.
+
+Show top expense categories.
+
+====================================================
+REPORTS
+====================================================
+
+Reports should automatically use categories.
+
+Category Wise Report
+
+Income by Category
+
+Expense by Category
+
+Pie Chart
+
+Bar Chart
+
+Monthly Comparison
+
+====================================================
+LEDGER
+====================================================
+
+Every ledger entry must display
+
+Category Icon
+
+Category Name
+
+Amount
+
+Payment Method
+
+Date
+
+Hotel Branch
+
+Remarks
+
+====================================================
+VALIDATION
+====================================================
+
+User cannot save transaction without category.
+
+User cannot save empty amount.
+
+User cannot save invalid amount.
+
+====================================================
+DATABASE READY
+====================================================
+
+Prepare category model for PostgreSQL.
+
+Each transaction must reference category_id.
+
+Do not hardcode categories inside components.
+
+Use mock data for now but prepare API integration.
+
+====================================================
+QUALITY CHECK
+====================================================
+
+After implementing everything,
+
+Perform a complete application scan.
+
+Verify
+
+✓ No broken icons
+
+✓ No placeholder icons
+
+✓ Categories visible
+
+✓ Category dropdown works
+
+✓ Dashboard updates correctly
+
+✓ Reports use categories
+
+✓ Search works
+
+✓ Filters work
+
+✓ No console errors
+
+✓ No TypeScript errors
+
+✓ No runtime crashes
+
+Finally provide a report listing every bug fixed and every file modified.

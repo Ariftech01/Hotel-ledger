@@ -1,0 +1,273 @@
+====================================================
+PRIORITY 3 - PROFESSIONAL PDF REPORT EXPORT
+====================================================
+
+Implement a complete PDF Report Export module.
+
+The exported PDF should look like a professionally designed accounting report that can be shared with hotel owners, accountants, auditors, or Chartered Accountants.
+
+The PDF must not be a simple table.
+
+Design it as a premium business report.
+
+----------------------------------------------------
+REPORT FILTERS
+----------------------------------------------------
+
+Allow users to generate reports using filters.
+
+Today
+
+Yesterday
+
+This Week
+
+This Month
+
+This Year
+
+Custom Date
+
+Custom Date Range
+
+Calendar Date Picker
+
+Hotel Branch
+
+Category
+
+Income
+
+Expense
+
+Payment Method
+
+----------------------------------------------------
+PDF LAYOUT
+----------------------------------------------------
+
+The PDF should contain
+
+Hotel Logo
+
+Hotel Name
+
+Hotel Address
+
+Phone Number
+
+Email
+
+GST Number (optional)
+
+Generated Date
+
+Generated Time
+
+Report Period
+
+Hotel Branch
+
+Prepared By
+
+Page Number
+
+Professional Header
+
+Professional Footer
+
+----------------------------------------------------
+SUMMARY SECTION
+----------------------------------------------------
+
+Display summary cards.
+
+Total Income
+
+Total Expense
+
+Net Profit
+
+Cash Transactions
+
+Bank Transactions
+
+UPI Transactions
+
+Total Transactions
+
+----------------------------------------------------
+CATEGORY SUMMARY
+----------------------------------------------------
+
+Display category-wise totals.
+
+Room Rent
+
+Restaurant
+
+Laundry
+
+Electricity
+
+Salary
+
+Marketing
+
+Maintenance
+
+Internet
+
+Fuel
+
+Other Income
+
+Other Expenses
+
+----------------------------------------------------
+TRANSACTION TABLE
+----------------------------------------------------
+
+Include a professional table.
+
+Columns
+
+Date
+
+Time
+
+Category
+
+Description
+
+Payment Method
+
+Income
+
+Expense
+
+Running Balance
+
+Remarks
+
+Hotel Branch
+
+Use alternating row colors.
+
+Highlight Income in Green.
+
+Highlight Expense in Red.
+
+Align currency properly.
+
+Use ₹ Indian Rupee formatting.
+
+----------------------------------------------------
+ANALYTICS
+----------------------------------------------------
+
+Include charts inside the PDF.
+
+Income vs Expense
+
+Category Breakdown
+
+Monthly Trend
+
+Branch Comparison
+
+----------------------------------------------------
+EXPORT OPTIONS
+----------------------------------------------------
+
+Export as
+
+PDF
+
+CSV
+
+Excel
+
+Share PDF
+
+Print PDF
+
+Save to Device
+
+Email PDF
+
+WhatsApp PDF
+
+----------------------------------------------------
+PDF QUALITY
+----------------------------------------------------
+
+Generate high-resolution PDF.
+
+Use A4 Portrait.
+
+Proper margins.
+
+Professional typography.
+
+Company branding.
+
+Modern business styling.
+
+Page numbers.
+
+Automatic page breaks.
+
+Header repeated on every page.
+
+Footer repeated on every page.
+
+----------------------------------------------------
+FILE NAME
+----------------------------------------------------
+
+Generate filenames like
+
+Hotel_Report_01-07-2026_to_31-07-2026.pdf
+
+Ledger_Report_15-07-2026.pdf
+
+Monthly_Report_July_2026.pdf
+
+----------------------------------------------------
+USER EXPERIENCE
+----------------------------------------------------
+
+When user clicks Download Report
+
+Open filter dialog.
+
+Allow selecting
+
+Date Range
+
+Branch
+
+Category
+
+Payment Method
+
+Income Only
+
+Expense Only
+
+Then generate PDF.
+
+Show loading indicator.
+
+Show success dialog.
+
+Allow Preview before Download.
+
+----------------------------------------------------
+FINAL REQUIREMENT
+----------------------------------------------------
+
+The PDF should look like a professionally generated financial statement suitable for hotel owners, accountants, auditors, and Chartered Accountants.
+
+It should be visually attractive, easy to read, properly aligned, branded, printable, and ready to share with clients or for official documentation.
