@@ -1,71 +1,104 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { MOCK_TRANSACTIONS } from "@/services/mockData";
+import { customFetch } from "@workspace/api-client-react";
+import { useAuth } from "./AuthContext";
+import { useHotel } from "./HotelContext";
 import type { Transaction } from "@/types";
 
 interface TransactionContextValue {
   transactions: Transaction[];
-  addTransaction: (t: Omit<Transaction, "id" | "isEdited" | "runningBalance">) => void;
-  editTransaction: (id: string, updates: Partial<Transaction>) => void;
-  deleteTransaction: (id: string) => void;
+  addTransaction: (t: Omit<Transaction, "id" | "isEdited" | "runningBalance">) => Promise<void>;
+  editTransaction: (id: string, updates: Partial<Transaction>) => Promise<void>;
+  deleteTransaction: (id: string) => Promise<void>;
+  isLoading: boolean;
+  refresh: () => Promise<void>;
 }
 
 const TransactionContext = createContext<TransactionContextValue>({
-  transactions: MOCK_TRANSACTIONS,
-  addTransaction: () => {},
-  editTransaction: () => {},
-  deleteTransaction: () => {},
+  transactions: [],
+  addTransaction: async () => {},
+  editTransaction: async () => {},
+  deleteTransaction: async () => {},
+  isLoading: true,
+  refresh: async () => {},
 });
 
-function generateId() {
-  return Date.now().toString() + Math.random().toString(36).substr(2, 9);
-}
-
 export function TransactionProvider({ children }: { children: React.ReactNode }) {
-  const [transactions, setTransactions] = useState<Transaction[]>(MOCK_TRANSACTIONS);
+  const { user } = useAuth();
+  const { selectedHotel } = useHotel();
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchTransactions = useCallback(async () => {
+    if (!user) {
+      setTransactions([]);
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const url = selectedHotel ? `/transactions?hotelId=${selectedHotel.id}` : "/transactions";
+      const list = await customFetch<Transaction[]>(url);
+      setTransactions(list);
+    } catch (err) {
+      console.warn("Error fetching transactions list:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user, selectedHotel]);
 
   useEffect(() => {
-    AsyncStorage.getItem("@hlp_transactions").then((stored) => {
-      if (stored) {
-        try { setTransactions(JSON.parse(stored)); } catch {}
-      }
-    }).catch(() => {});
+    fetchTransactions();
+  }, [fetchTransactions]);
+
+  const addTransaction = useCallback(async (t: Omit<Transaction, "id" | "isEdited" | "runningBalance">) => {
+    try {
+      const newTx = await customFetch<Transaction>("/transactions", {
+        method: "POST",
+        body: JSON.stringify({
+          ...t,
+          hotelId: selectedHotel?.id || user?.hotelId,
+        }),
+      });
+      setTransactions((prev) => [newTx, ...prev]);
+    } catch (err: any) {
+      throw new Error(err.message || "Failed to create transaction");
+    }
+  }, [selectedHotel, user]);
+
+  const editTransaction = useCallback(async (id: string, updates: Partial<Transaction>) => {
+    try {
+      const updated = await customFetch<Transaction>(`/transactions/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(updates),
+      });
+      setTransactions((prev) => prev.map((t) => (t.id === id ? updated : t)));
+    } catch (err: any) {
+      throw new Error(err.message || "Failed to update transaction");
+    }
   }, []);
 
-  const save = useCallback((list: Transaction[]) => {
-    setTransactions(list);
-    AsyncStorage.setItem("@hlp_transactions", JSON.stringify(list)).catch(() => {});
-  }, []);
-
-  const addTransaction = useCallback((t: Omit<Transaction, "id" | "isEdited" | "runningBalance">) => {
-    const newT: Transaction = { ...t, id: generateId(), isEdited: false };
-    setTransactions((prev) => {
-      const next = [newT, ...prev];
-      AsyncStorage.setItem("@hlp_transactions", JSON.stringify(next)).catch(() => {});
-      return next;
-    });
-  }, []);
-
-  const editTransaction = useCallback((id: string, updates: Partial<Transaction>) => {
-    setTransactions((prev) => {
-      const next = prev.map((t) =>
-        t.id === id ? { ...t, ...updates, isEdited: true, editedAt: new Date().toISOString().split("T")[0] } : t
-      );
-      AsyncStorage.setItem("@hlp_transactions", JSON.stringify(next)).catch(() => {});
-      return next;
-    });
-  }, []);
-
-  const deleteTransaction = useCallback((id: string) => {
-    setTransactions((prev) => {
-      const next = prev.filter((t) => t.id !== id);
-      AsyncStorage.setItem("@hlp_transactions", JSON.stringify(next)).catch(() => {});
-      return next;
-    });
+  const deleteTransaction = useCallback(async (id: string) => {
+    try {
+      await customFetch<{ success: boolean }>(`/transactions/${id}`, {
+        method: "DELETE",
+      });
+      setTransactions((prev) => prev.filter((t) => t.id !== id));
+    } catch (err: any) {
+      throw new Error(err.message || "Failed to delete transaction");
+    }
   }, []);
 
   return (
-    <TransactionContext.Provider value={{ transactions, addTransaction, editTransaction, deleteTransaction }}>
+    <TransactionContext.Provider
+      value={{
+        transactions,
+        addTransaction,
+        editTransaction,
+        deleteTransaction,
+        isLoading,
+        refresh: fetchTransactions,
+      }}
+    >
       {children}
     </TransactionContext.Provider>
   );

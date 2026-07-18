@@ -46,7 +46,10 @@ export function CategoryPickerModal({
   const [tab, setTab] = useState<"all" | "recent">("all");
 
   const typeFiltered = useMemo(
-    () => categories.filter((c) => c.type === transactionType || c.type === "both"),
+    () => categories.filter((c) => {
+      const mappedType = transactionType === "credit" ? "income" : "expense";
+      return c.type === mappedType || c.type === "both";
+    }),
     [categories, transactionType]
   );
 

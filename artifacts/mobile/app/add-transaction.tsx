@@ -38,7 +38,7 @@ export default function AddTransactionScreen() {
   const insets = useSafeAreaInsets();
   const { addTransaction } = useTransactions();
   const { selectedHotel, hotels } = useHotel();
-  const { markRecentCategory } = useCategories();
+  const { markRecentCategory, addCategory } = useCategories();
 
   const [type, setType] = useState<TransactionType>("credit");
   const [amount, setAmount] = useState("");
@@ -92,11 +92,26 @@ export default function AddTransactionScreen() {
     setLoading(true);
     try {
       const now = new Date();
-      addTransaction({
+      let finalCategoryId = selectedCategory!.id;
+      let finalCategory = selectedCategory!;
+
+      if (isOthers && customCategoryName.trim()) {
+        const newCat = await addCategory({
+          name: customCategoryName.trim(),
+          icon: "grid",
+          color: colors.primary,
+          type: type === "credit" ? "income" : "expense",
+          hotelId: selectedHotel?.id ?? hotels[0]?.id ?? "h1",
+        });
+        finalCategoryId = newCat.id;
+        finalCategory = newCat;
+      }
+
+      await addTransaction({
         type,
         amount: parseFloat(amount),
-        categoryId: resolvedCategory!.id,
-        category: resolvedCategory!,
+        categoryId: finalCategoryId,
+        category: finalCategory,
         paymentMethod,
         hotelId: selectedHotel?.id ?? hotels[0]?.id ?? "h1",
         hotel: selectedHotel ?? hotels[0],
@@ -108,6 +123,8 @@ export default function AddTransactionScreen() {
       });
       setSaved(true);
       setTimeout(() => router.back(), 700);
+    } catch (err) {
+      console.warn("Failed to save transaction", err);
     } finally {
       setLoading(false);
     }

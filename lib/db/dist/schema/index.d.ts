@@ -11,4 +11,5 @@ export * from "./notifications";
 export * from "./settings";
 export * from "./attachments";
 export * from "./audit_logs";
+export * from "./ledgers";
 //# sourceMappingURL=index.d.ts.map

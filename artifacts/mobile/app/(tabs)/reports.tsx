@@ -80,10 +80,66 @@ export default function ReportsScreen() {
   const [period, setPeriod] = useState("Monthly");
   const topPad = insets.top + 16;
 
-  const totalIncome = MOCK_MONTHLY_DATA.reduce((s, d) => s + d.income, 0);
-  const totalExpense = MOCK_MONTHLY_DATA.reduce((s, d) => s + d.expense, 0);
-  const totalProfit = totalIncome - totalExpense;
-  const profitMargin = totalIncome > 0 ? ((totalProfit / totalIncome) * 100).toFixed(1) : "0";
+  const { totalIncome, totalExpense, totalProfit, profitMargin, chartData } = useMemo(() => {
+    if (transactions.length === 0) {
+      const inc = MOCK_MONTHLY_DATA.reduce((s, d) => s + d.income, 0);
+      const exp = MOCK_MONTHLY_DATA.reduce((s, d) => s + d.expense, 0);
+      const prof = inc - exp;
+      const margin = inc > 0 ? ((prof / inc) * 100).toFixed(1) : "0";
+      return {
+        totalIncome: inc,
+        totalExpense: exp,
+        totalProfit: prof,
+        profitMargin: margin,
+        chartData: MOCK_MONTHLY_DATA,
+      };
+    }
+
+    let inc = 0;
+    let exp = 0;
+    for (const t of transactions) {
+      if (t.type === "credit") inc += t.amount;
+      else exp += t.amount;
+    }
+    const prof = inc - exp;
+    const margin = inc > 0 ? ((prof / inc) * 100).toFixed(1) : "0";
+
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const now = new Date();
+    const monthlyMap: Record<string, { income: number; expense: number }> = {};
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      monthlyMap[months[d.getMonth()]] = { income: 0, expense: 0 };
+    }
+
+    for (const t of transactions) {
+      const tDate = new Date(t.date);
+      if (isNaN(tDate.getTime())) continue;
+      const monthName = months[tDate.getMonth()];
+      if (monthlyMap[monthName] !== undefined) {
+        if (t.type === "credit") {
+          monthlyMap[monthName].income += t.amount;
+        } else {
+          monthlyMap[monthName].expense += t.amount;
+        }
+      }
+    }
+
+    const computed = Object.entries(monthlyMap).map(([month, data]) => ({
+      month,
+      income: data.income,
+      expense: data.expense,
+      profit: data.income - data.expense,
+    }));
+
+    return {
+      totalIncome: inc,
+      totalExpense: exp,
+      totalProfit: prof,
+      profitMargin: margin,
+      chartData: computed,
+    };
+  }, [transactions]);
 
   const catData = useMemo(() => {
     const map: Record<string, { cat: typeof categories[0]; income: number; expense: number; count: number }> = {};
@@ -167,7 +223,7 @@ export default function ReportsScreen() {
             </View>
           ))}
         </View>
-        <BarChart data={MOCK_MONTHLY_DATA} />
+        <BarChart data={chartData} />
       </View>
 
       {/* YTD Net Profit Card */}

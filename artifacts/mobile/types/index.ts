@@ -39,6 +39,11 @@ export interface Category {
   icon: string;
   color: string;
   type: "income" | "expense" | "both";
+  hotelId?: string;
+  createdBy?: string;
+  updatedBy?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Transaction {

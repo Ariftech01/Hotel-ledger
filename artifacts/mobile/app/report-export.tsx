@@ -19,6 +19,8 @@ import { useHotel } from "@/context/HotelContext";
 import { useAuth } from "@/context/AuthContext";
 import { generateAndSharePDF } from "@/utils/pdfExport";
 import { formatDate, formatIndianCurrency } from "@/utils/format";
+import * as WebBrowser from "expo-web-browser";
+import { supabase } from "@/utils/supabase";
 
 type DateRangeOption = "today" | "yesterday" | "week" | "month" | "quarter" | "year";
 type TxFilter = "all" | "income" | "expense";
@@ -234,7 +236,22 @@ export default function ReportExportScreen() {
           ].map((item) => (
             <Pressable
               key={item.label}
-              onPress={() => Alert.alert("Coming Soon", `${item.label} will be available soon.`)}
+              onPress={async () => {
+                if (item.label === "Export CSV") {
+                  try {
+                    const session = await supabase.auth.getSession();
+                    const token = session.data.session?.access_token || "";
+                    const apiUrl = process.env.EXPO_PUBLIC_API_URL || "";
+                    const downloadUrl = `${apiUrl}/api/reports?format=csv&hotelId=${hotel?.id}&startDate=${range.from}&endDate=${range.to}&token=${token}`;
+                    await WebBrowser.openBrowserAsync(downloadUrl);
+                  } catch (e: any) {
+                    Alert.alert("Export Failed", e.message || "Failed to download CSV.");
+                  }
+                } else {
+                  // Share/Generate PDF report
+                  handleGenerate();
+                }
+              }}
               style={({ pressed }) => [
                 styles.exportSecondBtn,
                 { backgroundColor: colors.card, borderColor: colors.border, borderRadius: 14, opacity: pressed ? 0.8 : 1 },

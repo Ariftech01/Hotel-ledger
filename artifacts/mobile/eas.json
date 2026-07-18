@@ -1,0 +1,36 @@
+{
+  "cli": {
+    "version": ">= 20.5.1",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://hotel-ledger.onrender.com",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://nzxflnvefiihcujuebfd.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56eGZsbnZlZmlpaGN1anVlYmZkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4Mzc0NTQ2OCwiZXhwIjoyMDk5MzIxNDY4fQ.gvb4YCWJ8PggzYxj102jKRxQXe6pWJ3ynDpnKhz_3_0"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://hotel-ledger.onrender.com",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://nzxflnvefiihcujuebfd.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56eGZsbnZlZmlpaGN1anVlYmZkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4Mzc0NTQ2OCwiZXhwIjoyMDk5MzIxNDY4fQ.gvb4YCWJ8PggzYxj102jKRxQXe6pWJ3ynDpnKhz_3_0"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://hotel-ledger.onrender.com",
+        "EXPO_PUBLIC_SUPABASE_URL": "https://nzxflnvefiihcujuebfd.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56eGZsbnZlZmlpaGN1anVlYmZkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4Mzc0NTQ2OCwiZXhwIjoyMDk5MzIxNDY4fQ.gvb4YCWJ8PggzYxj102jKRxQXe6pWJ3ynDpnKhz_3_0"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

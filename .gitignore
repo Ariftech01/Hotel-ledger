@@ -1,4 +1,19 @@
+# Environment
 .env
 .env.*
+
+# Dependencies
 node_modules/
+
+# Expo
+.expo/
+
+# Build outputs
 dist/
+build/
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+*.log

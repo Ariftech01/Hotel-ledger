@@ -1,81 +1,110 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { ALL_CATEGORIES } from "@/services/mockData";
+import { customFetch } from "@workspace/api-client-react";
+import { useAuth } from "./AuthContext";
+import { useHotel } from "./HotelContext";
 import type { Category } from "@/types";
 
 interface CategoryContextValue {
   categories: Category[];
-  addCategory: (c: Omit<Category, "id">) => void;
-  updateCategory: (id: string, updates: Partial<Category>) => void;
-  deleteCategory: (id: string) => void;
+  addCategory: (c: Omit<Category, "id">) => Promise<Category>;
+  updateCategory: (id: string, updates: Partial<Category>) => Promise<void>;
+  deleteCategory: (id: string) => Promise<void>;
   recentCategoryIds: string[];
   markRecentCategory: (id: string) => void;
   getCategoryById: (id: string) => Category | undefined;
+  isLoading: boolean;
+  refresh: () => Promise<void>;
 }
 
 const CategoryContext = createContext<CategoryContextValue>({
-  categories: ALL_CATEGORIES,
-  addCategory: () => {},
-  updateCategory: () => {},
-  deleteCategory: () => {},
+  categories: [],
+  addCategory: async () => ({} as Category),
+  updateCategory: async () => {},
+  deleteCategory: async () => {},
   recentCategoryIds: [],
   markRecentCategory: () => {},
   getCategoryById: () => undefined,
+  isLoading: true,
+  refresh: async () => {},
 });
 
-const STORAGE_KEY = "@hlp_categories";
 const RECENT_KEY = "@hlp_recent_categories";
 
-function generateId() {
-  return "cat_" + Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
-}
-
 export function CategoryProvider({ children }: { children: React.ReactNode }) {
-  const [categories, setCategories] = useState<Category[]>(ALL_CATEGORIES);
+  const { user } = useAuth();
+  const { selectedHotel } = useHotel();
+  const [categories, setCategories] = useState<Category[]>([]);
   const [recentCategoryIds, setRecentCategoryIds] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchCategories = useCallback(async () => {
+    if (!user) {
+      setCategories([]);
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const url = selectedHotel ? `/categories?hotelId=${selectedHotel.id}` : "/categories";
+      const list = await customFetch<Category[]>(url);
+      setCategories(list);
+    } catch (err) {
+      console.warn("Error fetching categories:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [user, selectedHotel]);
 
   useEffect(() => {
-    Promise.all([
-      AsyncStorage.getItem(STORAGE_KEY),
-      AsyncStorage.getItem(RECENT_KEY),
-    ]).then(([stored, recent]) => {
-      if (stored) {
-        try { setCategories(JSON.parse(stored)); } catch {}
-      }
+    fetchCategories();
+
+    // Restore recent categories from local storage
+    AsyncStorage.getItem(RECENT_KEY).then((recent) => {
       if (recent) {
         try { setRecentCategoryIds(JSON.parse(recent)); } catch {}
       }
     }).catch(() => {});
+  }, [fetchCategories]);
+
+  const addCategory = useCallback(async (c: Omit<Category, "id">) => {
+    try {
+      const payload = {
+        ...c,
+        hotelId: c.hotelId || selectedHotel?.id || user?.hotelId,
+      };
+      const newCat = await customFetch<Category>("/categories", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+      setCategories((prev) => [...prev, newCat]);
+      return newCat;
+    } catch (err: any) {
+      throw new Error(err.message || "Failed to add category");
+    }
+  }, [selectedHotel, user]);
+
+  const updateCategory = useCallback(async (id: string, updates: Partial<Category>) => {
+    try {
+      const updated = await customFetch<Category>(`/categories/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(updates),
+      });
+      setCategories((prev) => prev.map((c) => (c.id === id ? updated : c)));
+    } catch (err: any) {
+      throw new Error(err.message || "Failed to update category");
+    }
   }, []);
 
-  const save = useCallback((list: Category[]) => {
-    setCategories(list);
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(list)).catch(() => {});
-  }, []);
-
-  const addCategory = useCallback((c: Omit<Category, "id">) => {
-    const newCat: Category = { ...c, id: generateId() };
-    setCategories((prev) => {
-      const next = [...prev, newCat];
-      AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next)).catch(() => {});
-      return next;
-    });
-  }, []);
-
-  const updateCategory = useCallback((id: string, updates: Partial<Category>) => {
-    setCategories((prev) => {
-      const next = prev.map((c) => (c.id === id ? { ...c, ...updates } : c));
-      AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next)).catch(() => {});
-      return next;
-    });
-  }, []);
-
-  const deleteCategory = useCallback((id: string) => {
-    setCategories((prev) => {
-      const next = prev.filter((c) => c.id !== id);
-      AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next)).catch(() => {});
-      return next;
-    });
+  const deleteCategory = useCallback(async (id: string) => {
+    try {
+      await customFetch<{ success: boolean }>(`/categories/${id}`, {
+        method: "DELETE",
+      });
+      setCategories((prev) => prev.filter((c) => c.id !== id));
+    } catch (err: any) {
+      throw new Error(err.message || "Failed to delete category");
+    }
   }, []);
 
   const markRecentCategory = useCallback((id: string) => {
@@ -92,7 +121,19 @@ export function CategoryProvider({ children }: { children: React.ReactNode }) {
   }, [categories]);
 
   return (
-    <CategoryContext.Provider value={{ categories, addCategory, updateCategory, deleteCategory, recentCategoryIds, markRecentCategory, getCategoryById }}>
+    <CategoryContext.Provider
+      value={{
+        categories,
+        addCategory,
+        updateCategory,
+        deleteCategory,
+        recentCategoryIds,
+        markRecentCategory,
+        getCategoryById,
+        isLoading,
+        refresh: fetchCategories,
+      }}
+    >
       {children}
     </CategoryContext.Provider>
   );

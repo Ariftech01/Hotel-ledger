@@ -1,18 +1,20 @@
 import { Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
+import { useHotel } from "@/context/HotelContext";
 import { useTransactions } from "@/context/TransactionContext";
 import { HotelSelector } from "@/components/ui/HotelSelector";
 import { StatCard } from "@/components/ui/StatCard";
 import { TransactionCard } from "@/components/ui/TransactionCard";
 import { FilterChipGroup } from "@/components/ui/FilterChip";
-import { MOCK_DASHBOARD } from "@/services/mockData";
+import { useQuery } from "@tanstack/react-query";
+import { customFetch } from "@workspace/api-client-react";
 import { formatIndianCurrency } from "@/utils/format";
-import type { Transaction } from "@/types";
+import type { Transaction, DashboardSummary } from "@/types";
 
 const DATE_FILTERS = ["Today", "Week", "Month", "Year"];
 
@@ -54,10 +56,31 @@ export default function DashboardScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const { user } = useAuth();
+  const { selectedHotel } = useHotel();
   const { transactions } = useTransactions();
   const [dateFilter, setDateFilter] = useState("Today");
 
-  const d = MOCK_DASHBOARD;
+  const { data: dashboardData, isLoading: isDashboardLoading, refetch } = useQuery({
+    queryKey: ["dashboard", selectedHotel?.id],
+    queryFn: () => {
+      const url = selectedHotel ? `/dashboard?hotelId=${selectedHotel.id}` : "/dashboard";
+      return customFetch<{ summary: DashboardSummary; monthlyData: any[] }>(url);
+    },
+    enabled: !!user,
+  });
+
+  const d = dashboardData?.summary || {
+    todayIncome: 0,
+    todayExpense: 0,
+    cashBalance: 0,
+    bankBalance: 0,
+    netProfit: 0,
+    pendingPayments: 0,
+    pendingCollections: 0,
+    monthIncome: 0,
+    monthExpense: 0,
+  };
+
   const recent = transactions.slice(0, 5);
   const topPad = insets.top + (Platform.OS === "web" ? 16 : 16);
 
@@ -98,6 +121,9 @@ export default function DashboardScreen() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 120 }}
+        refreshControl={
+          <RefreshControl refreshing={isDashboardLoading} onRefresh={refetch} />
+        }
       >
         {/* Filter Chips */}
         <View style={styles.filterSection}>

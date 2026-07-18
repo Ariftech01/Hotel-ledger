@@ -17,7 +17,8 @@
       "supportsTablet": false
     },
     "android": {
-      "backgroundColor": "#1E3A8A"
+      "backgroundColor": "#1E3A8A",
+      "package": "com.arif.hotelledger"
     },
     "web": {
       "favicon": "./assets/images/icon.png"
@@ -35,6 +36,11 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d2c47027-0554-4f19-bf5e-6c50d5eebd99"
+      }
     }
   }
 }

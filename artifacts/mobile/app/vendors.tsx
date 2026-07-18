@@ -1,22 +1,98 @@
 import { Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { FlatList, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, Platform, Pressable, StyleSheet, Text, View, Alert, RefreshControl } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColors } from "@/hooks/useColors";
-import { MOCK_VENDORS } from "@/services/mockData";
+import { useHotel } from "@/context/HotelContext";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Badge } from "@/components/ui/Badge";
 import { formatIndianCurrency } from "@/utils/format";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { customFetch } from "@workspace/api-client-react";
+import type { Vendor } from "@/types";
 
 export default function VendorsScreen() {
   const colors = useColors();
   const insets = useSafeAreaInsets();
+  const { selectedHotel } = useHotel();
+  const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const topPad = insets.top + (Platform.OS === "web" ? 67 : 16);
 
-  const filtered = MOCK_VENDORS.filter((v) =>
+  // Fetch live vendors from backend
+  const { data: vendors = [], isLoading, refetch } = useQuery<Vendor[]>({
+    queryKey: ["vendors", selectedHotel?.id],
+    queryFn: () => {
+      const url = selectedHotel ? `/vendors?hotelId=${selectedHotel.id}` : "/vendors";
+      return customFetch<Vendor[]>(url);
+    },
+  });
+
+  // Create vendor mutation
+  const createVendorMutation = useMutation({
+    mutationFn: (newVend: Omit<Vendor, "id">) => {
+      return customFetch<Vendor>("/vendors", {
+        method: "POST",
+        body: JSON.stringify({
+          ...newVend,
+          hotelId: selectedHotel?.id,
+        }),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["vendors"] });
+    },
+  });
+
+  const handleAddVendor = () => {
+    if (Platform.OS === "web") {
+      const name = prompt("Enter vendor name:");
+      const phone = prompt("Enter vendor phone number:");
+      const email = prompt("Enter vendor email (optional):") || "";
+      const address = prompt("Enter vendor address (optional):") || "";
+      if (name && phone) {
+        createVendorMutation.mutate({
+          name,
+          phone,
+          email,
+          address,
+          outstanding: 0,
+          totalPurchased: 0,
+        });
+      }
+      return;
+    }
+
+    Alert.prompt("New Vendor", "Enter vendor name", [
+      { text: "Cancel", style: "cancel" },
+      {
+        text: "Next",
+        onPress: (name?: string) => {
+          if (!name) return;
+          Alert.prompt("New Vendor", "Enter vendor phone number", [
+            { text: "Cancel", style: "cancel" },
+            {
+              text: "Add",
+              onPress: (phone?: string) => {
+                if (name && phone) {
+                  createVendorMutation.mutate({
+                    name,
+                    phone,
+                    outstanding: 0,
+                    totalPurchased: 0,
+                  });
+                }
+              },
+            },
+          ]);
+        },
+      },
+    ]);
+  };
+
+  const filtered = vendors.filter((v) =>
     v.name.toLowerCase().includes(search.toLowerCase()) ||
     v.phone.includes(search)
   );
@@ -28,7 +104,10 @@ export default function VendorsScreen() {
           <Feather name="arrow-left" size={22} color={colors.text} />
         </Pressable>
         <Text style={[styles.title, { color: colors.text }]}>Vendors</Text>
-        <Pressable style={[styles.addBtn, { backgroundColor: colors.primary, borderRadius: colors.radius - 4 }]}>
+        <Pressable
+          onPress={handleAddVendor}
+          style={[styles.addBtn, { backgroundColor: colors.primary, borderRadius: colors.radius - 4 }]}
+        >
           <Feather name="plus" size={18} color="#FFFFFF" />
         </Pressable>
       </View>
@@ -40,6 +119,9 @@ export default function VendorsScreen() {
       <FlatList
         data={filtered}
         keyExtractor={(item) => item.id}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={refetch} />
+        }
         renderItem={({ item }) => (
           <Pressable style={[styles.vendorCard, { backgroundColor: colors.card, borderRadius: colors.radius, marginHorizontal: 16, marginVertical: 4, borderColor: colors.border }]}>
             <View style={[styles.avatar, { backgroundColor: "#8B5CF620", borderRadius: 24 }]}>
@@ -69,7 +151,15 @@ export default function VendorsScreen() {
         )}
         contentContainerStyle={{ paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
-        ListEmptyComponent={<EmptyState icon="briefcase" title="No Vendors" description={search ? `No results for "${search}"` : "No vendors yet."} />}
+        ListEmptyComponent={
+          <EmptyState
+            icon="briefcase"
+            title="No Vendors"
+            description={search ? `No results for "${search}"` : "No vendors yet."}
+            actionLabel="Add Vendor"
+            onAction={handleAddVendor}
+          />
+        }
       />
     </View>
   );

@@ -38,7 +38,7 @@ export default function EditTransactionScreen() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { transactions, editTransaction } = useTransactions();
-  const { markRecentCategory } = useCategories();
+  const { markRecentCategory, addCategory } = useCategories();
 
   const transaction = transactions.find((t) => t.id === id);
 
@@ -98,16 +98,33 @@ export default function EditTransactionScreen() {
     if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     setLoading(true);
     try {
-      editTransaction(id, {
+      let finalCategoryId = selectedCategory!.id;
+      let finalCategory = selectedCategory!;
+
+      if (isOthers && customCategoryName.trim()) {
+        const newCat = await addCategory({
+          name: customCategoryName.trim(),
+          icon: "grid",
+          color: colors.primary,
+          type: txType === "credit" ? "income" : "expense",
+          hotelId: transaction.hotelId,
+        });
+        finalCategoryId = newCat.id;
+        finalCategory = newCat;
+      }
+
+      await editTransaction(id, {
         amount: parseFloat(amount),
-        categoryId: resolvedCategory!.id,
-        category: resolvedCategory!,
+        categoryId: finalCategoryId,
+        category: finalCategory,
         paymentMethod,
         remarks: remarks.trim(),
         description: description.trim() || undefined,
         editedBy: "Manager",
       });
       router.back();
+    } catch (err) {
+      console.warn("Failed to edit transaction", err);
     } finally {
       setLoading(false);
     }

@@ -125,7 +125,7 @@ export default function SettingsScreen() {
       <Section title="Finance">
         <SettingRow icon="grid" label="Categories" sublabel="Income & expense categories" iconBg="#CFFAFE" iconColor="#0891B2" onPress={() => router.push("/categories")} />
         <SettingRow icon="credit-card" label="Payment Methods" sublabel="Cash, UPI, Bank Transfer…" iconBg={colors.warningLight} iconColor={colors.warning} onPress={() => {}} />
-        <SettingRow icon="file-text" label="Invoices & GST" sublabel="Manage GST invoices" iconBg="#FEF3C7" iconColor="#D97706" onPress={() => router.push("/invoice/index")} />
+        <SettingRow icon="file-text" label="Invoices & GST" sublabel="Manage GST invoices" iconBg="#FEF3C7" iconColor="#D97706" onPress={() => router.push("/invoice/index" as any)} />
       </Section>
 
       {/* Preferences */}
